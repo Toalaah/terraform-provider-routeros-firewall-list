@@ -30,7 +30,7 @@ Prior to usage, you must also configure the `https` REST API with an
 appropriate TLS/SSL certificate. For instructions on how to do so, refer to the
 [Mikrotik](https://help.mikrotik.com/docs/display/ROS/REST+API) documentation
 or this [guide](https://www.medo64.com/2016/11/enabling-https-on-mikrotik/)
-(not affiliated), which explains the process quite easily.
+(not affiliated), which explains the process quite well.
 
 ## Example Usage
 
@@ -52,7 +52,7 @@ provider "routeros-firewall-list" {}
 provider "routeros" {}
 
 locals {
-  # Convoluted example, meant to demonstrate ordering capabilities rather than
+  # Contrived example, meant to demonstrate ordering capabilities rather than
   # sensible firewall configuration
   rules = [
     { action = "accept", src_address = "192.168.88.10", comment = "rule 1" },
