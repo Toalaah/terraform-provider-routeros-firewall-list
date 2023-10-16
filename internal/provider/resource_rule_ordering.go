@@ -77,11 +77,11 @@ func (r *FirewallRuleOrderingResource) Configure(ctx context.Context, req resour
 func (r *FirewallRuleOrderingResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Firewall rule ordering",
-		Description:         "TODO",
+		Description:         "Firewall rule ordering",
 		Attributes: map[string]schema.Attribute{
 			"rule_type": schema.StringAttribute{
 				MarkdownDescription: "The rule type to apply ordering to",
-				Description:         "TODO",
+				Description:         "The rule type to apply ordering to",
 				Required:            true,
 				Validators: []validator.String{
 					stringvalidator.OneOf("filter", "nat", "mangle", "raw"),
@@ -90,12 +90,12 @@ func (r *FirewallRuleOrderingResource) Schema(ctx context.Context, req resource.
 			"rules": schema.ListAttribute{
 				ElementType:         types.StringType,
 				MarkdownDescription: "List of rules arranged in their desired order",
-				Description:         "TODO",
+				Description:         "List of rules arranged in their desired order",
 				Required:            true,
 			},
 			"id": schema.StringAttribute{
 				Computed:            true,
-				Description:         "TODO",
+				Description:         "Identifier of resource",
 				MarkdownDescription: "Identifier of resource",
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),

@@ -13,3 +13,13 @@ provider "routeros-firewall-list" {
   ca_certificate = "./ca.pem"     # env fallback: ROS_CA_CERTIFICATE
   insecure       = false          # env fallback: ROS_INSECURE
 }
+
+resource "routeros-firewall-list_rule_ordering" "rules" {
+  rule_type = "filter"
+  rules = [
+    "*A",
+    "*B",
+    "*C",
+    "*9",
+  ]
+}

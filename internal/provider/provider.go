@@ -60,32 +60,34 @@ func (p *RouterosFWFLProvider) Metadata(ctx context.Context, req provider.Metada
 
 func (p *RouterosFWFLProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		Description:         "A provider for declaratively managing firewall lists on RouterOS devices",
+		MarkdownDescription: "A provider for declaratively  managing firewall lists on RouterOS devices.",
 		Attributes: map[string]schema.Attribute{
 			"hosturl": schema.StringAttribute{
-				MarkdownDescription: "Example provider attribute",
 				Optional:            true,
-				Description:         "TODO",
+				Description:         "Address of the host device. Do not specify the protocol or port, these are hard-coded to 'https' and '443' respectively",
+				MarkdownDescription: "Address of the host device. Do not specify the protocol or port, these are hard-coded to 'https' and '443' respectively",
 			},
 			"username": schema.StringAttribute{
-				MarkdownDescription: "Example provider attribute",
 				Optional:            true,
-				Description:         "TODO",
+				Description:         "Username to use for API authentication",
+				MarkdownDescription: "Username to use for API authentication",
 			},
 			"password": schema.StringAttribute{
-				MarkdownDescription: "Example provider attribute",
 				Optional:            true,
 				Sensitive:           true,
-				Description:         "TODO",
+				Description:         "Password to use for API authentication",
+				MarkdownDescription: "Password to use for API authentication",
 			},
 			"ca_certificate": schema.StringAttribute{
-				MarkdownDescription: "Example provider attribute",
 				Optional:            true,
-				Description:         "TODO",
+				MarkdownDescription: "Path to the CA root certificate",
+				Description:         "Path to the CA root certificate",
 			},
 			"insecure": schema.BoolAttribute{
-				MarkdownDescription: "Example provider attribute",
 				Optional:            true,
-				Description:         "TODO",
+				Description:         "Whether to skip verifying the SSL certificate used by the API service",
+				MarkdownDescription: "Whether to skip verifying the SSL certificate used by the API service",
 			},
 		},
 	}
