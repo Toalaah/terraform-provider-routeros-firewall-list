@@ -42,5 +42,5 @@ resource "routeros-firewall-list_rule_ordering" "rules" {
 Import is supported using the following syntax:
 
 ```shell
-# This resource is not importable :(
+# This resource is not importable
 ```
