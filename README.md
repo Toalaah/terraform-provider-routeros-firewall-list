@@ -13,24 +13,24 @@ functionality to be too lacking for my personal use case. In particular, this
 made it challenging to create a list of firewall rules using `for_each`, as I
 would run into cyclic reference issues. Furthermore, the ordering was only used
 during initial resource creation, and would not be checked upon refreshing
-state. This means that if firewall rules are re-ordered from an external source
-Terraform would have no way of knowing that the rule should be recreated/moved
-in order.
+state. This means that if firewall rules are re-ordered by an external source
+Terraform would have no way of knowing that the rule should be moved back into
+it's original position.
 
 This provider aims to fulfill said use case by enforcing and checking on rule
 orders, allowing Terraform to "lock" rules/chains to the user's desired order.
 
 ## Important Note On Usage
 
-This provider makes use of raw console commands which **only** available via
-the new REST API. As such, the legacy API (default ports 8728, 8729) is **not**
-compatible with this provider.
+This provider makes use of raw console commands which are **only** available
+via the new REST API. As a result, the legacy API (default ports 8728, 8729) is
+**not** compatible with this provider.
 
 Prior to usage, you must also configure the `https` REST API with an
 appropriate TLS/SSL certificate. For instructions on how to do so, refer to the
-[Mikrotik](https://help.mikrotik.com/docs/display/ROS/REST+API) documentation
-or this [guide](https://www.medo64.com/2016/11/enabling-https-on-mikrotik/)
-(not affiliated), which explains the process quite well.
+[Mikrotik](https://help.mikrotik.com/docs/display/ROS/REST+API) documentation.
+This [guide](https://www.medo64.com/2016/11/enabling-https-on-mikrotik/) (not
+affiliated), also explains the process quite well.
 
 ## Example Usage
 
@@ -48,8 +48,22 @@ terraform {
 }
 
 # Refer to provider documentation for configuration options
-provider "routeros-firewall-list" {}
-provider "routeros" {}
+provider "routeros-firewall-list" {
+  hosturl        = "192.168.88.1" # env fallback: ROS_HOSTURL
+  username       = "admin"        # env fallback: ROS_USERNAME
+  password       = "password"     # env fallback: ROS_PASSWORD
+  ca_certificate = "./ca.pem"     # env fallback: ROS_CA_CERTIFICATE
+  insecure       = false          # env fallback: ROS_INSECURE
+}
+
+# Configure routeros provider for creating firewall rules
+provider "routeros" {
+  hosturl        = "192.168.88.1" # env fallback: ROS_HOSTURL
+  username       = "admin"        # env fallback: ROS_USERNAME
+  password       = "password"     # env fallback: ROS_PASSWORD
+  ca_certificate = "./ca.pem"     # env fallback: ROS_CA_CERTIFICATE
+  insecure       = false          # env fallback: ROS_INSECURE
+}
 
 locals {
   # Contrived example, meant to demonstrate ordering capabilities rather than
@@ -65,7 +79,6 @@ locals {
   rule_map = { for idx, rule in local.rules : idx => rule }
 }
 
-
 # Use terraform-routeros provider to provision firewall rules. These may be
 # created out-of-order.
 resource "routeros_ip_firewall_filter" "rules" {
@@ -77,7 +90,6 @@ resource "routeros_ip_firewall_filter" "rules" {
   src_address = each.value.src_address
   dst_address = "192.168.88.100"
 }
-
 
 # Create explicit rule ordering to force chain order according to list above
 # rather than creation time.
@@ -93,18 +105,22 @@ resource "routeros-firewall-list_rule_ordering" "tester" {
 
 To hack on this provider locally, you can configure a development override by
 editing your Terraform RC located at `~/.terraformrc`. Make sure to amend the
-provider path according to where you cloned the repo.
+provider path according to where you cloned the repository.
 
 ```hcl
 provider_installation {
   dev_overrides {
-    "registry.terraform.io/toalaah/routeros-firewall-list" = "/path/to/repo/terraform-provider-routeros-firewall-list"
+    "registry.terraform.io/toalaah/routeros-firewall-list" = "/path/to/repo"
   }
   direct {}
 }
 ```
 
 You may create a local debug build by running `make debug`.
+
+## GPG Signatures
+
+Releases are signed with `484ABDF7B593FA5DFAA1101924FC7AC66A59A433`
 
 ## Acknowledgments
 
