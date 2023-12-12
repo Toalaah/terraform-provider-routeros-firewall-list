@@ -1,3 +1,5 @@
+# This functionality was added into the RouterOS provider in version v1.27.2: https://github.com/terraform-routeros/terraform-provider-routeros/releases/tag/v1.27.2. Please use it instead.
+
 # Terraform Provider RouterOS Firewall List
 
 This is a simple provider which facilitates the management of ordering firewall
